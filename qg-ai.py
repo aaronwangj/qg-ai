@@ -6,6 +6,10 @@ openai.api_key = "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"
 
 app = FastAPI()
 
+@app.get("/test")
+def transcribe():
+    return {"hello": "world"}
+
 
 @app.post("/transcribe")
 def transcribe(file: UploadFile):
