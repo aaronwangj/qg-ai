@@ -1,8 +1,9 @@
 from fastapi import FastAPI, UploadFile, Form
 import openai
 import os
+import requests
 
-openai.api_key = "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"
+openai.api_key = os.environ.get("OPENAI_KEY")
 
 app = FastAPI()
 
