@@ -1,1 +1,1 @@
-web: gunicorn -w 2 -k uvicorn.workers.UvicornWorker qg-ai:app 
+web: gunicorn -w 2 -k uvicorn.workers.UvicornWorker qgai:app 
