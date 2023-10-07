@@ -1,29 +1,26 @@
 from fastapi import FastAPI, UploadFile, Form
+from fastapi.middleware.cors import CORSMiddleware
 import openai
 import os
-import requests
 
-openai.api_key = os.environ.get("OPENAI_KEY")
+# openai.api_key = os.environ.get("OPENAI_KEY")
+openai.api_key = "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"
 
 app = FastAPI()
 
-@app.get("/test")
-def transcribe():
-    return {"hello": "world"}
+origins = ["*"]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.post("/transcribe")
-def transcribe(file: UploadFile):
-    try:
-        contents = file.file.read()
-        with open(file.filename, "wb") as f:
-            f.write(contents)
-    except Exception as e:
-        return {"message": e}
-    finally:
-        file.file.close()
-
-    return get_transcription(file)
+@app.get("/")
+def test():
+    return {"message": "quantguide.io"}
 
 
 @app.post("/ai")
@@ -66,3 +63,6 @@ def ai(file: UploadFile, prompt: str = Form(...)):
 def get_transcription(file):
     with open(file.filename, "rb") as f:
         return openai.Audio.transcribe("whisper-1", f)["text"]
+
+    # song = AudioSegment.from_wav(file.filename)
+        
