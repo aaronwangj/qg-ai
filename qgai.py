@@ -4,7 +4,6 @@ import openai
 import os
 
 openai.api_key = os.environ.get("OPENAI_KEY")
-openai.api_key = "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"
 
 app = FastAPI()
 
