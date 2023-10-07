@@ -54,14 +54,17 @@ def ai(file: UploadFile, prompt: str = Form(...)):
         presence_penalty=0,
     )
 
-    os.remove(file.filename)
-
     return response["choices"][0]["message"]["content"]
 
 
 def get_transcription(file):
-    with open(file.filename, "rb") as f:
-        return openai.Audio.transcribe("whisper-1", f)["text"]
+    try:
+        text = ""
+        with open(file.filename, "rb") as f:
+            text = openai.Audio.transcribe("whisper-1", f)["text"]
+        return text
+    finally:
+        os.remove(file.filename)
 
 
 @app.post("/transcribe")
