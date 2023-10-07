@@ -65,7 +65,7 @@ def get_transcription(file):
 
 
 @app.post("/transcribe")
-def transcription(file: UploadFile):
+def transcribe(file: UploadFile):
     try:
         contents = file.file.read()
         with open(file.filename, "wb") as f:
