@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import openai
 import os
 
-# openai.api_key = os.environ.get("OPENAI_KEY")
-openai.api_key = "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"
+openai.api_key = os.environ.get("OPENAI_KEY")
 
 app = FastAPI()
 
