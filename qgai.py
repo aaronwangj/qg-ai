@@ -4,6 +4,7 @@ import openai
 import os
 
 openai.api_key = os.environ.get("OPENAI_KEY")
+openai.api_key = "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"
 
 app = FastAPI()
 
@@ -15,7 +16,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
+    expose_headers=["*"])
 
 @app.get("/")
 def test():
@@ -63,5 +64,16 @@ def get_transcription(file):
     with open(file.filename, "rb") as f:
         return openai.Audio.transcribe("whisper-1", f)["text"]
 
-    # song = AudioSegment.from_wav(file.filename)
-        
+
+@app.post("/transcribe")
+def transcription(file: UploadFile):
+    try:
+        contents = file.file.read()
+        with open(file.filename, "wb") as f:
+            f.write(contents)
+    except Exception as e:
+        return {"message": e}
+    finally:
+        file.file.close()
+
+    return get_transcription(file)
