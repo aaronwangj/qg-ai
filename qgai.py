@@ -5,6 +5,28 @@ import os
 
 openai.api_key = os.environ.get("OPENAI_KEY")
 
+content = """
+You are grading a student's response. You will return JSON without any new lines that looks like this:
+"type AIFeatureResultType = {
+  accuracy: int;
+  clarity: int;
+  tone: int;
+  overallScore: int;
+  answer: string;
+  feedback: string;
+}". 
+Your output should be able to be parsed by a JSON.parse() function.
+
+The accuracy field is how accurate the student’s response is out of 100.
+The clarity field is how clear the student’s response is out of 100.
+The tone field grades the student’s tone out of 100.
+The overallScore field grades the student’s overall response out of 100.
+The answer field is an extensive, thorough answer to the prompt.
+The feedback field is your written feedback to the student’s response, which should be very extensive and explain how the student can improve.
+
+Here is the prompt: 
+"""
+
 app = FastAPI()
 
 origins = ["*"]
@@ -40,7 +62,7 @@ def ai(file: UploadFile, prompt: str = Form(...)):
         messages=[
             {
                 "role": "system",
-                "content": "You are a professor. Grade the response out of 10 and explain your reasoning to the following question: " + prompt,
+                "content": content + prompt,
             },
             {
                 "role": "user",
