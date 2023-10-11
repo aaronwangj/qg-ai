@@ -10,7 +10,7 @@ You are grading a student's response. You will return JSON without any new lines
 "type AIFeatureResultType = {
   accuracy: int;
   clarity: int;
-  tone: int;
+  depth: int;
   overallScore: int;
   answer: string;
   feedback: string;
@@ -19,7 +19,7 @@ Your output should be able to be parsed by a JSON.parse() function.
 
 The accuracy field is how accurate the student’s response is out of 100.
 The clarity field is how clear the student’s response is out of 100.
-The tone field grades the student’s tone out of 100.
+The depth field grades the student’s depth out of 100.
 The overallScore field grades the student’s overall response out of 100.
 The answer field is an extensive, thorough answer to the prompt.
 The feedback field is your written feedback to the student’s response, which should be very extensive and explain how the student can improve.
