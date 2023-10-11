@@ -7,7 +7,7 @@ openai.api_key = os.environ.get("OPENAI_KEY")
 
 content = """
 You are grading a student's response. You will return JSON without any new lines that looks like this:
-"type AIFeatureResultType = {
+"{
   accuracy: int;
   clarity: int;
   depth: int;
