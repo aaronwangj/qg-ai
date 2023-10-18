@@ -124,4 +124,4 @@ def ai_text(text: str = Form(...), prompt: str = Form(...)):
         presence_penalty=0,
     )
 
-    return {"feedback": response, "transcript": text}
+    return {"feedback": response["choices"][0]["message"]["content"], "transcript": text}
