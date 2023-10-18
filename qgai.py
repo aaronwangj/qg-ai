@@ -104,7 +104,7 @@ def transcribe(file: UploadFile):
 
 
 @app.post("/ai-text")
-def ai_text(text, prompt):
+def ai_text(text: str = Form(...), prompt: str = Form(...)):
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
