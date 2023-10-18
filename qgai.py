@@ -76,7 +76,7 @@ def ai(file: UploadFile, prompt: str = Form(...)):
         presence_penalty=0,
     )
 
-    return response["choices"][0]["message"]["content"]
+    return {"feedback": response["choices"][0]["message"]["content"], "transcript": transcription}
 
 
 def get_transcription(file):
@@ -101,3 +101,27 @@ def transcribe(file: UploadFile):
         file.file.close()
 
     return get_transcription(file)
+
+
+@app.post("/ai-text")
+def ai_text(text, prompt):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system",
+                "content": content + prompt,
+            },
+            {
+                "role": "user",
+                "content": text,
+            },
+        ],
+        temperature=0.8,
+        max_tokens=1024,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+
+    return {"feedback": response, "transcript": text}
