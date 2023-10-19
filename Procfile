@@ -1,1 +1,1 @@
-web: gunicorn -w 2 -k uvicorn.workers.UvicornWorker qgai:app 
+web: gunicorn -w 21 -k uvicorn.workers.UvicornWorker qgai:app --timeout=900
