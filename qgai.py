@@ -29,7 +29,7 @@ Here is the prompt:
 
 app = FastAPI()
 
-origins = ["*"]
+origins = ["https://qg-admin.vercel.app/", "https://www.quantguide.io/", "https://quantguide.io/", "https://quant-guide-app-git-dev-quantguide.vercel.app/", "https://www.quant-guide-app-git-dev-quantguide.vercel.app/"]
 
 app.add_middleware(
     CORSMiddleware,
