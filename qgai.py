@@ -77,7 +77,8 @@ def ai(file: UploadFile, prompt: str = Form(...)):
         return {"message": e}
     finally:
         file.file.close()
-        os.remove(file.filename)
+        if os.path.exists(file.filename):
+            os.remove(file.filename)
 
 
 def get_transcription(file):
@@ -87,7 +88,8 @@ def get_transcription(file):
             text = openai.Audio.transcribe("whisper-1", f)["text"]
         return text
     finally:
-        os.remove(file.filename)
+        if os.path.exists(file.filename):
+            os.remove(file.filename)
 
 
 @app.post("/transcribe")
@@ -101,7 +103,8 @@ def transcribe(file: UploadFile):
         return {"message": e}
     finally:
         file.file.close()
-        os.remove(file.filename)
+        if os.path.exists(file.filename):
+            os.remove(file.filename)
 
 
 @app.post("/ai-text")
