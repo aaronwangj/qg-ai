@@ -50,33 +50,34 @@ def ai(file: UploadFile, prompt: str = Form(...)):
         contents = file.file.read()
         with open(file.filename, "wb") as f:
             f.write(contents)
+
+            transcription = get_transcription(file)
+
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {
+                    "role": "system",
+                    "content": content + prompt,
+                },
+                {
+                    "role": "user",
+                    "content": transcription,
+                },
+            ],
+            temperature=0.8,
+            max_tokens=1024,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+        )
+        return {"feedback": response["choices"][0]["message"]["content"], "transcript": transcription}
+    
     except Exception as e:
         return {"message": e}
     finally:
         file.file.close()
-
-    transcription = get_transcription(file)
-
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {
-                "role": "system",
-                "content": content + prompt,
-            },
-            {
-                "role": "user",
-                "content": transcription,
-            },
-        ],
-        temperature=0.8,
-        max_tokens=1024,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0,
-    )
-
-    return {"feedback": response["choices"][0]["message"]["content"], "transcript": transcription}
+        os.remove(file.filename)
 
 
 def get_transcription(file):
@@ -95,12 +96,12 @@ def transcribe(file: UploadFile):
         contents = file.file.read()
         with open(file.filename, "wb") as f:
             f.write(contents)
+        return get_transcription(file)
     except Exception as e:
         return {"message": e}
     finally:
         file.file.close()
-
-    return get_transcription(file)
+        os.remove(file.filename)
 
 
 @app.post("/ai-text")
